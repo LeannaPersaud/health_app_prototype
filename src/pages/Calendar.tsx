@@ -35,7 +35,7 @@ export default function Calendar() {
     }
 
     return (
-    <Layout page="Calendar">
+    <Layout page="Calendar" tooltip='A calendar to keep track of important dates such as refills, pick-ups, appointments, etc.'>
         <div className='container-fluid h-100 d-flex flex-column'>
             <FullCalendar
             plugins={[dayGridPlugin]}

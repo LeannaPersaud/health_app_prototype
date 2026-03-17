@@ -1,4 +1,5 @@
 import { Link, useNavigate } from 'react-router-dom';
+import { Tooltip } from 'react-tooltip';
 
 function TimeBar(){
     return (
@@ -15,7 +16,7 @@ function TimeBar(){
     )
 }
 
-function TitleBar({name}:{name: string}){
+function TitleBar({name,tooltip}:{name: string, tooltip:string}){
     const navigation = useNavigate();
 
     function handleBack(){
@@ -25,7 +26,11 @@ function TitleBar({name}:{name: string}){
     return(
         <div className="d-flex align-items-center position-relative py-0">
             <div className="position-absolute start-0 fs-3 p-2" id='back-button' onClick={handleBack}><i className="bi bi-arrow-left-short"></i></div>
-            <div className="flex-grow-1 text-center fs-5 fw-bold">{name}</div>
+            <div className="flex-grow-1 text-center fs-5 fw-bold">
+                {name}
+                <i className="bi bi-info-circle ms-2" data-tooltip-id="title-tooltip"></i>
+            </div>
+            <Tooltip id="title-tooltip" content={tooltip}/>
         </div>
     )
 }
@@ -61,11 +66,11 @@ function Navigation(){
     )
 }
 
-function Layout({page, children}:{page: string, children: any}){
+function Layout({page, tooltip, children}:{page: string, tooltip:string, children: any}){
     return(
         <div className="d-flex flex-column min-vh-100">
             <TimeBar />
-            <TitleBar name={page} />
+            <TitleBar name={page} tooltip={tooltip}/>
             <main className="flex-grow-1 d-flex flex-column">{children}</main>
             <Navigation />
         </div>

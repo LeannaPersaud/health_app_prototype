@@ -31,7 +31,7 @@ export default function Schedule(){
     const [time,setTime] = useState("")
 
     return (
-        <Layout page="Schedule Refill">
+        <Layout page="Schedule Refill" tooltip="Schedule a refill for any prescriptions that need it. Note: Your progress is not saved upon leaving.">
             {stage==1 && (<>
                 <Title title="Schedule Refill for Medication 1" icon=""/>
                 <Label name="Choose Pharmacy" item={<Arrow />} onClick={() => setStage(2)}/>

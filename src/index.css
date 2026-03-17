@@ -49,3 +49,25 @@ body {
   display: 'contents';
   text-decoration: none; 
 }
+
+.react-tooltip {
+  max-width: 250px;
+  white-space: pre-wrap;
+  z-index: 100;
+  opacity: 95% !important;
+}
+
+.no-hover:hover {
+  background-color: inherit !important;
+}
+
+.work{
+  pointer-events: auto;
+  cursor: default;
+}
+
+.work-tooltip{
+  max-width: 150px;
+  white-space: pre-wrap;
+  opacity: 95% !important
+}

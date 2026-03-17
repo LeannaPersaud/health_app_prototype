@@ -2,7 +2,7 @@ import Layout from './Layout'
 
 export default function DoandDont(){
     return (
-        <Layout page="Dos and Don'ts">
+        <Layout page="Dos and Don'ts" tooltip='Discover what activities you should and should not do at the current stage in your recovery.'>
             <div className='container-fluid'>
                 <div className='important px-3 fs-1'>
                     <i className='bi bi-check-square-fill'></i>

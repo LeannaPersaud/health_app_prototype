@@ -28,9 +28,9 @@ function ClickLabel({name, description, refill}:{name:string, description:string
   )
 }
 
-export default function Profile() {
+export default function Medication() {
   return(
-    <Layout page="Medication">
+    <Layout page="Medication" tooltip="Includes info about your prescription, refills, medicine-specific side effects, etc.">
       <ClickLabel name="Medication 1" description="Medicine 1 runs out on 3/25/26 and needs to be refilled." refill={true}/>
       <ClickLabel name="Medication 2" description="Medicine lasts for 2 more weeks." refill={false}/>
       <ClickLabel name="Medication 3" description="Medicine lasts for 2 more weeks." refill={false}/>
