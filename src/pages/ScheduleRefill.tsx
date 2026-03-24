@@ -1,8 +1,13 @@
 import Layout from "./Layout";
 import { useState } from "react";
+import { Description, Dialog, DialogPanel, DialogTitle } from '@headlessui/react'
 
 function Arrow(){
     return <i className="bi bi-caret-right-fill fs-6 m-2 d-inline-block"></i>
+}
+
+function Pencil(){
+    return <i className="bi bi-pencil fs-6 m-2 d-inline-block"></i>
 }
 
 function Title({title, icon}:{title:string, icon:string}){
@@ -10,6 +15,20 @@ function Title({title, icon}:{title:string, icon:string}){
         <div className="container-fluid important fs-2 text-center">
             <span>{title}</span>
             {icon && <i className={icon}></i>}
+        </div>
+    )
+}
+
+function ProgressBar({progress}:{progress:number}){
+    return(
+        <div className="py-2 border-bottom border-top border-black">
+            <div className="text-center fs-5">Step {progress}/4</div>
+            <div className="segmented-progress m-2">
+                <div className={`segment ${(progress>=1 ? "done" : "")}`}/>
+                <div className={`segment ${(progress>=2 ? "done" : "")}`}/>
+                <div className={`segment ${(progress>=3 ? "done" : "")}`}/>
+                <div className={`segment ${(progress>=4 ? "done" : "")}`}/>
+            </div>
         </div>
     )
 }
@@ -24,29 +43,45 @@ function Label({name, item, onClick}:{name:string, item:any, onClick:() => void}
     )
 }
 
+function Summary({section, name, item, onClick}:{section:string, name:string, item:any, onClick:() => void}){
+    return(
+        <div className="border-top-0 border-end-0 border-start-0 justify-content-between d-flex align-items-center p-3 border border-black">
+            <div className="flex flex-column">
+                <div className="fs-4 mb-1">{section}</div>
+                <div className="fs-5">{name}</div>
+            </div>
+            <button onClick={onClick} className="btn btn-white">{item}</button>
+        </div>
+    )
+}
+
 export default function Schedule(){
     const [stage,setStage] = useState(1)
     const [pharmacy,setPharmacy] = useState("")
     const [date,setDate] = useState("")
     const [time,setTime] = useState("")
+    const [isOpen, setIsOpen] = useState(false)
 
     return (
-        <Layout page="Schedule Refill" tooltip="Schedule a refill for any prescriptions that need it. Note: Your progress is not saved upon leaving.">
+        <Layout page="Schedule Refill" tooltip="Schedule a refill for any prescriptions that need it. Note: Your progress is not saved upon leaving."
+                current={0}>
             {stage==1 && (<>
                 <Title title="Schedule Refill for Medication 1" icon=""/>
+                <ProgressBar progress={1} />
                 <Label name="Choose Pharmacy" item={<Arrow />} onClick={() => setStage(2)}/>
             </>)}
 
             {stage==2 && (<>
                 <Title title="Choose Pharmacy" icon="bi bi-prescription d-block"/>
-                <Label name="CVS Pharmacy" item="(0.4 mi)" onClick={() => {setPharmacy("CVS Pharmacy (0.4 mi)");setStage(3)}}/>
+                <Label name="CVS Pharmacy" item="(0.4 mi)" onClick={() => {setPharmacy("CVS (0.4 mi)");setStage(3)}}/>
                 <Label name="Walgreens" item="(1.2 mi)" onClick={() => {setPharmacy("Walgreens (1.2 mi)");setStage(3)}}/>
-                <Label name="Giants Pharmacy" item="(3.1 mi)" onClick={() => {setPharmacy("Giants Pharmacy (3.1 mi)");setStage(3)}}/>
+                <Label name="Giants Pharmacy" item="(3.1 mi)" onClick={() => {setPharmacy("Giants (3.1 mi)");setStage(3)}}/>
             </>)}
 
             {stage==3 && (<>
                 <Title title="Schedule Refill for Medication 1" icon=""/>
-                <Label name={pharmacy} item={<Arrow />} onClick={() => setStage(2)}/>
+                <ProgressBar progress={2} />
+                <Summary section={"Pharmacy:"} name={pharmacy} item={<Pencil />} onClick={() => setStage(2)}/>
                 <Label name="Choose Date" item={<Arrow />} onClick={() => setStage(4)}/>
             </>)}
 
@@ -59,8 +94,9 @@ export default function Schedule(){
 
             {stage==5 && (<>
                 <Title title="Schedule Refill for Medication 1" icon=""/>
-                <Label name={pharmacy} item={<Arrow />} onClick={() => setStage(2)}/>
-                <Label name={date} item={<Arrow />} onClick={() => setStage(4)}/>
+                <ProgressBar progress={3} />
+                <Summary section={"Pharmacy:"} name={pharmacy} item={<Pencil />} onClick={() => setStage(2)}/>
+                <Summary section={"Date:"} name={date} item={<Pencil />} onClick={() => setStage(4)}/>
                 <Label name="Choose Time" item={<Arrow />} onClick={() => setStage(6)}/>
             </>)}
 
@@ -73,14 +109,37 @@ export default function Schedule(){
 
             {stage==7 && (<>
                 <Title title="Schedule Refill for Medication 1" icon=""/>
-                <Label name={pharmacy} item={<Arrow />} onClick={() => setStage(2)}/>
-                <Label name={date} item={<Arrow />} onClick={() => setStage(4)}/>
-                <Label name={time} item={<Arrow />} onClick={() => setStage(6)}/>
+                <Summary section={"Pharmacy:"} name={pharmacy} item={<Pencil />} onClick={() => setStage(2)}/>
+                <Summary section={"Date:"} name={date} item={<Pencil />} onClick={() => setStage(4)}/>
+                <Summary section={"Time:"} name={time} item={<Pencil />} onClick={() => setStage(6)}/>
                 <div className="container">
                     <button className="my-2 d-block text-start fs-6 important border-0 rounded" 
-                            onClick={() => setStage(8)}>
+                            onClick={() => setIsOpen(true)}>
                     Submit Refill<i className="bi bi-caret-right-fill fs-6 m-2 d-inline-block"></i></button>
                 </div>
+
+                <Dialog open={isOpen} onClose={() => setIsOpen(false)} className="position-relative">
+                    <div className="position-fixed top-0 start-0 w-100 h-100 bg-dark opacity-50" onClick={() => setIsOpen(false)}/>
+                    <div className="position-fixed top-50 start-50 translate-middle w-100" style={{ maxWidth: "400px" }}>
+                        <DialogPanel className="bg-white p-4 rounded shadow">
+                        <DialogTitle className="fs-4 fw-bold">
+                            Confirm Refill
+                        </DialogTitle>
+                        <Description className="mt-2">
+                            Please confirm the details below to ensure your refill details are correct.
+                        </Description>
+                        <p className="mt-2">
+                            Pharmacy: {pharmacy}<br/>
+                            Date: {date}<br/>
+                            Time: {time}
+                        </p>
+                        <div className="mt-3 d-flex justify-content-end gap-2">
+                            <button className="btn btn-secondary" onClick={() => setIsOpen(false)}>Cancel</button>
+                            <button className="important border-0 rounded" onClick={() => {setIsOpen(false); setStage(8);}}>Confirm</button>
+                        </div>
+                        </DialogPanel>
+                    </div>
+                </Dialog>
             </>)}
 
             {stage==8 && (<>

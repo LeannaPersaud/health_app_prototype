@@ -35,7 +35,7 @@ function TitleBar({name,tooltip}:{name: string, tooltip:string}){
     )
 }
 
-function Navigation(){
+function Navigation({current}:{current:number}){
     return(
         <>
         <div className="container-fluid px-3 py-0 border-top border-black">
@@ -45,17 +45,17 @@ function Navigation(){
                         <i className="bi bi-person-fill clickable-icon fs-1"></i>
                     </button>
                 </div>
-                <div className="col">
+                <div className="col" style={{backgroundColor: current==1 ? '#d6f1ee' : 'white'}}>
                     <Link to="/"><button type="button" className="btn border-0">
                         <i className="bi bi-house-door-fill clickable-icon fs-1"></i>
                     </button></Link>
                 </div>
-                <div className="col">
+                <div className="col" style={{backgroundColor: current==2 ? '#d6f1ee' : 'white'}}>
                     <Link to="/DoandDont"><button type="button" className="btn border-0">
                         <i className="bi bi-clipboard2-fill clickable-icon fs-1"></i>
                     </button></Link>
                 </div>
-                <div className="col">
+                <div className="col" style={{backgroundColor: current==3 ? '#d6f1ee' : 'white'}}>
                     <Link to="/Calendar"><button type="button" className="btn border-0">
                         <i className="bi bi-calendar-event-fill clickable-icon fs-1"></i>
                     </button></Link>
@@ -66,13 +66,13 @@ function Navigation(){
     )
 }
 
-function Layout({page, tooltip, children}:{page: string, tooltip:string, children: any}){
+function Layout({page, tooltip, children, current}:{page: string, tooltip:string, children: any, current:number}){
     return(
         <div className="d-flex flex-column min-vh-100">
             <TimeBar />
             <TitleBar name={page} tooltip={tooltip}/>
             <main className="flex-grow-1 d-flex flex-column">{children}</main>
-            <Navigation />
+            <Navigation current={current}/>
         </div>
     )
 }

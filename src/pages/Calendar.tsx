@@ -1,13 +1,15 @@
 import Layout from './Layout'
-import { useState } from 'react';
-import FullCalendar from "@fullcalendar/react";
-import dayGridPlugin from "@fullcalendar/daygrid";
-import { Link } from 'react-router-dom';
+import { useState } from 'react' 
+import FullCalendar from "@fullcalendar/react" 
+import dayGridPlugin from "@fullcalendar/daygrid" 
+import interactionPlugin from '@fullcalendar/interaction' 
+import { Link } from 'react-router-dom' 
 
 type Event = {
     title: string,
     description: string,
     date: string
+    eventB: Boolean
 }
 
 function Module({event, setEvent, refill}:{event:Event, setEvent:any, refill:Boolean}){
@@ -31,22 +33,41 @@ export default function Calendar() {
     const [selectedEvent, setSelectedEvent] = useState<Event | null>(null)
 
     function handleEventClick(info:any){
-        setSelectedEvent({title: info.event.title, description: info.event.extendedProps.description, date: info.event.startSt })
+        setSelectedEvent({title: info.event.title, description: info.event.extendedProps.description, date: info.event.startStr, eventB: info.event.eventB})
     }
 
+    function handleDateClick(info: any) {
+        const clickedDate = info.dateStr
+        const events = info.view.calendar.getEvents()
+
+        const eventsForDay = events.filter((event: any) => event.startStr.startsWith(clickedDate))
+
+        if (eventsForDay.length > 0) {
+            const first = eventsForDay[0]
+
+            setSelectedEvent({title: first.title, description: first.extendedProps.description, date: first.startStr,eventB: true})
+        }
+        else {
+            setSelectedEvent({title: "No events",description: `No events for ${clickedDate}`,date: clickedDate,eventB: false})
+        }
+}
+
     return (
-    <Layout page="Calendar" tooltip='A calendar to keep track of important dates such as refills, pick-ups, appointments, etc.'>
-        <div className='container-fluid h-100 d-flex flex-column'>
+    <Layout page="Calendar" tooltip='A calendar to keep track of important dates such as refills, pick-ups, appointments, etc.' current={3}>
+        <div className='container-fluid d-flex flex-column h-100'>
             <FullCalendar
-            plugins={[dayGridPlugin]}
-            initialView="dayGridMonth"
-            buttonText={{today:"Today"}}
-            events={[{title: "Refill Medication 1",date: "2026-03-25",description: "Medication 1 runs out and needs to be refilled.", backgroundColor: "#dc3545"}]}
-            eventClick={handleEventClick}
-            height="80vh"
-        />
-        {selectedEvent && <Module event={selectedEvent} setEvent={setSelectedEvent} refill={true}/>}
+                plugins={[dayGridPlugin, interactionPlugin]}
+                initialView="dayGridMonth"
+                buttonText={{today:"Today"}}
+                events={[{title: "Refill Medication 1",date: "2026-03-25",
+                        description: "Medication 1 runs out and needs to be refilled.", backgroundColor: "#dc3545"}]}
+                eventClick={handleEventClick}
+                dateClick={handleDateClick}
+                height="auto"
+                contentHeight="auto"
+            />
+            {selectedEvent && <Module event={selectedEvent} setEvent={setSelectedEvent} refill={selectedEvent.eventB}/>}
         </div>
     </Layout>
-    );
+    ) 
 }
