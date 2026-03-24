@@ -11,13 +11,13 @@ function ClickLabel({name, description, refill}:{name:string, description:string
             <i className="bi bi-capsule clickable-icon fs-2 m-2"></i>
             {name}
           </div>
-
           <div className="d-flex align-items-center">
             {refill && <i className="bi bi-exclamation-circle-fill fs-2 m-2 text-danger"></i>}
             <i className="bi bi-caret-down-fill dropdown fs-2 m-2 d-inline-block"></i>
           </div>
         </div>
       </DisclosureButton>
+      
       <DisclosurePanel className="fs-5 mx-3 my-2 border-bottom border-secondary">
         {refill && <i className="bi bi-exclamation-circle-fill fs-6 m-2 text-danger"></i>}
         {description}
