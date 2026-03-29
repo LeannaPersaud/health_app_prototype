@@ -16,7 +16,7 @@ function TimeBar(){
     )
 }
 
-function TitleBar({name,tooltip}:{name: string, tooltip:string}){
+function TitleBar({name,tooltip, contrast, toggleContrast}:{name: string, tooltip:string, contrast:boolean, toggleContrast:any}){
     const navigation = useNavigate();
 
     function handleBack(){
@@ -30,6 +30,11 @@ function TitleBar({name,tooltip}:{name: string, tooltip:string}){
                 {name}
                 <i className="bi bi-info-circle ms-2" data-tooltip-id="title-tooltip"></i>
             </div>
+            <div className="position-absolute end-0 p-2">
+                <button onClick={toggleContrast} className='btn-white rounded'>
+                    {contrast ? "Default" : "High Contrast"}
+                </button>
+            </div>
             <Tooltip id="title-tooltip" content={tooltip}/>
         </div>
     )
@@ -38,26 +43,33 @@ function TitleBar({name,tooltip}:{name: string, tooltip:string}){
 function Navigation({current}:{current:number}){
     return(
         <>
-        <div className="container-fluid px-3 py-0 border-top border-black">
-            <div className="row text-center">
-                <div className="col">
-                    <button type="button" className="btn border-0" disabled>
+        <div className="container-fluid px-2 py-0 border-top border-black">
+            <div className="row">
+                <div className="col-3 d-flex justify-content-center align-items-center">
+                    <button type="button" className="btn border-0 lh-sm" disabled>
                         <i className="bi bi-person-fill clickable-icon fs-1"></i>
+                        <div>Profile</div>
                     </button>
                 </div>
-                <div className="col" style={{backgroundColor: current==1 ? '#d6f1ee' : 'white'}}>
-                    <Link to="/"><button type="button" className="btn border-0">
+                <div className="col-3 d-flex justify-content-center align-items-center"
+                 style={{backgroundColor: current==1 ? '#d6f1ee' : 'white'}}>
+                    <Link to="/"><button type="button" className="btn border-0 lh-sm">
                         <i className="bi bi-house-door-fill clickable-icon fs-1"></i>
+                        <div>Home</div>
                     </button></Link>
                 </div>
-                <div className="col" style={{backgroundColor: current==2 ? '#d6f1ee' : 'white'}}>
-                    <Link to="/DoandDont"><button type="button" className="btn border-0">
+                <div className="col-3 d-flex justify-content-center align-items-center"
+                 style={{backgroundColor: current==2 ? '#d6f1ee' : 'white'}}>
+                    <Link to="/DoandDont"><button type="button" className="btn border-0 lh-sm">
                         <i className="bi bi-clipboard2-fill clickable-icon fs-1"></i>
+                        <div>Do's/Don'ts</div>
                     </button></Link>
                 </div>
-                <div className="col" style={{backgroundColor: current==3 ? '#d6f1ee' : 'white'}}>
-                    <Link to="/Calendar"><button type="button" className="btn border-0">
+                <div className="col-3 d-flex justify-content-center align-items-center"
+                 style={{backgroundColor: current==3 ? '#d6f1ee' : 'white'}}>
+                    <Link to="/Calendar"><button type="button" className="btn border-0 lh-sm">
                         <i className="bi bi-calendar-event-fill clickable-icon fs-1"></i>
+                        <div>Calendar</div>
                     </button></Link>
                 </div>
             </div>
@@ -66,11 +78,12 @@ function Navigation({current}:{current:number}){
     )
 }
 
-function Layout({page, tooltip, children, current}:{page: string, tooltip:string, children: any, current:number}){
+function Layout({page, tooltip, children, current, contrast, toggleContrast}:
+                {page: string, tooltip:string, children: any, current:number, contrast:boolean, toggleContrast:any}){
     return(
         <div className="d-flex flex-column min-vh-100">
-            <TimeBar />
-            <TitleBar name={page} tooltip={tooltip}/>
+            <TimeBar/>
+            <TitleBar name={page} tooltip={tooltip} contrast={contrast} toggleContrast={toggleContrast}/>
             <main className="flex-grow-1 d-flex flex-column">{children}</main>
             <Navigation current={current}/>
         </div>

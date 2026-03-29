@@ -29,7 +29,7 @@ function Module({event, setEvent, refill}:{event:Event, setEvent:any, refill:Boo
 }
 
 
-export default function Calendar() {
+export default function Calendar({contrast, toggleContrast}:{contrast:boolean, toggleContrast:any}) {
     const [selectedEvent, setSelectedEvent] = useState<Event | null>(null)
 
     function handleEventClick(info:any){
@@ -53,12 +53,14 @@ export default function Calendar() {
 }
 
     return (
-    <Layout page="Calendar" tooltip='A calendar to keep track of important dates such as refills, pick-ups, appointments, etc.' current={3}>
+    <Layout page="Calendar" tooltip='A calendar to keep track of important dates such as refills, pick-ups, appointments, etc.'
+     current={3} contrast={contrast} toggleContrast={toggleContrast}>
+        <div className='p-2 m-3 border fw-bold'>Click a date to see what events are occurring.</div>
         <div className='container-fluid d-flex flex-column h-100'>
             <FullCalendar
                 plugins={[dayGridPlugin, interactionPlugin]}
                 initialView="dayGridMonth"
-                buttonText={{today:"Today"}}
+                buttonText={{today:"Go To Today", prev: 'Previous', next: 'Next'}}
                 events={[{title: "Refill Medication 1",date: "2026-03-25",
                         description: "Medication 1 runs out and needs to be refilled.", backgroundColor: "#dc3545"}]}
                 eventClick={handleEventClick}

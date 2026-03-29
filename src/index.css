@@ -1,3 +1,11 @@
+:root{
+  --theme-color: #199a8e;
+}
+
+.contrast{
+  --theme-color: black;
+}
+
 body {
   background: #e9ecef;
 }
@@ -12,7 +20,7 @@ body {
 }
 
 .clickable-icon{
-  color: #199a8e;
+  color: var(--theme-color);
 }
 
 .btn-white {
@@ -27,7 +35,7 @@ body {
 }
 
 .dropdown{
-  color: #199a8e;
+  color: var(--theme-color);
   transition: transform 0.2s ease;
 }
 
@@ -36,7 +44,7 @@ body {
 }
 
 .important{
-  background-color: #199a8e;
+  background-color: var(--theme-color);
   color: white;
 }
 
@@ -76,6 +84,7 @@ body {
   display: flex;
   gap: 10px;
   align-items: center;
+  padding-bottom: 20px;
 }
 
 .segment{
@@ -87,7 +96,7 @@ body {
 }
 
 .segment.done{
-  background-color: #199a8e;
+  background-color: var(--theme-color);
 }
 
 .fc {
@@ -99,3 +108,7 @@ body {
   cursor:pointer;
 }
 
+.fc .fc-button-primary {
+  background-color: var(--theme-color);
+  color: white;
+}

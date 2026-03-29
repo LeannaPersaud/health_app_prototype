@@ -28,9 +28,10 @@ function ClickLabel({name, description, refill}:{name:string, description:string
   )
 }
 
-export default function Medication() {
+export default function Medication({contrast, toggleContrast}:{contrast:boolean, toggleContrast:any}) {
   return(
-    <Layout page="Medication" tooltip="Includes info about your prescription, refills, medicine-specific side effects, etc." current={0}>
+    <Layout page="Medication" tooltip="Includes info about your prescription, refills, medicine-specific side effects, etc."
+         current={0} contrast={contrast} toggleContrast={toggleContrast}>
       <div className="text-center"><p>{"Home > Medication"}</p></div>
       <div className='important px-3 fs-3'>
           <span className='m-3'>Needs Attention</span>

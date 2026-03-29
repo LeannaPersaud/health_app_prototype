@@ -1,8 +1,9 @@
 import Layout from './Layout'
 
-export default function DoandDont(){
+export default function DoandDont({contrast, toggleContrast}:{contrast:boolean, toggleContrast:any}){
     return (
-        <Layout page="Dos and Don'ts" tooltip='Discover what activities you should and should not do at the current stage in your recovery.' current={2}>
+        <Layout page="Dos and Don'ts" tooltip='Discover what activities you should and should not do at the current stage in your recovery.'
+         current={2} contrast={contrast} toggleContrast={toggleContrast}>
             <div className="text-center"><p>{"Home > Do's and Dont's"}</p></div>
             <div className='container-fluid'>
                 <div className='important px-3 fs-1'>

@@ -1,5 +1,6 @@
 import Layout from './Layout'
 import { Link } from 'react-router-dom';
+import { Tooltip } from 'react-tooltip';
 
 function Icon({icon, label, active, to, important}: {icon: string, label: string, active: Boolean, to:string, important:boolean}) {
   return(
@@ -8,7 +9,11 @@ function Icon({icon, label, active, to, important}: {icon: string, label: string
       (<Link to={to} className='d-flex w-100 h-100 links'><button type="button" className='btn btn-white p-2 h-100 w-100'>
         <div className='position-relative'>
           <i className={icon} style={{fontSize: "clamp(2.5rem, 3.5vw, 3.5rem)"}}></i> 
-          {important && <i className="bi bi-exclamation-circle-fill text-danger px-1 position-absolute top-0 end-0 fs-3"></i>}
+          {important && <>
+            <i className="bi bi-exclamation-circle-fill text-danger px-1 position-absolute top-0 end-0 fs-3"
+            data-tooltip-id="warning-tooltip"></i>
+            <Tooltip id="warning-tooltip" content="Refill Needed"/>
+            </>}
         </div>
         <div>{label}</div>
       </button></Link>
@@ -34,10 +39,10 @@ function Column({icon}: {icon: any}){
   )
 }
 
-export default function Home() {
+export default function Home({contrast, toggleContrast}:{contrast:boolean, toggleContrast:any}) {
   return (
     <Layout page="Home" tooltip="Your main hub. Includes info about your medicine, doctors, physical therapy suggestions, a personalized plan for the best recovery, actions to avoid, and common side effects."
-            current={1}>
+            current={1} contrast={contrast} toggleContrast={toggleContrast}>
       <div className='flex-grow-1 d-flex flex-column text-center gap-3 justify-content-center'>
         <div className='row flex-grow-1 mx-2' style={{maxHeight: '20vh', maxWidth:'60vh'}}>
           <Column icon={<Icon icon="bi bi-prescription2 clickable-icon " label="Medication" active={true} to="/Medication" important={true}/>}/>
